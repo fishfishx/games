@@ -2,7 +2,10 @@ import pygame,sys
 from pygame.locals import *
 
 pygame.init()
+
 screen = pygame.display.set_mode((700,600))
+
+#these set of variables are game's states
 board = [[0,0,0],[0,0,0],[0,0,0]]
 turn =  1
 inboard = True
@@ -18,12 +21,13 @@ def drawcircle(screen,x,y,r):
 def drawx(x,y,txt):
     screen.blit(txt,(x-25,y-35))
 
+# these are for display
 x = y = 0
 r = 30
 font1 = pygame.font.Font(None,120)
 txt1 = font1.render('X',True,(0,0,0))
 screen.fill((255,255,255))
-drawboard(screen)
+
 while True:
     for event in pygame.event.get():
         if event.type == MOUSEBUTTONDOWN:
@@ -51,14 +55,21 @@ while True:
                 x,y = 450,450
             else:
                 inboard = False
-            if turn == 1 and inboard == True:
-                drawcircle(screen,x,y,r)
-                turn = 2
-            elif turn == 2 and inboard == True:
-                drawx(x,y,txt1)
-                turn = 1
+  
         elif event.type in (QUIT,None):
             sys.exit()
+    
+              
+    # draw the game world according to game's states     
+    # 抹掉
+    screen.fill((255,255,255))
+    drawboard(screen)
 
-
+    #rewrite to draw pieces only according to boards[]
+    if turn == 1 and inboard == True:
+        drawcircle(screen,x,y,r)
+        turn = 2
+    elif turn == 2 and inboard == True:
+        drawx(x,y,txt1)
+        turn = 1
     pygame.display.update()
